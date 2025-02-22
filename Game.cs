@@ -24,6 +24,7 @@ namespace DungeonExplorer
 
             Player player = new Player("Mitchell", 100);
             Console.WriteLine($"Player Name: {player.Name} \nPlayer Health: {player.Health}");
+            Console.WriteLine("Game is starting...");
 
             while (playing)
             {
@@ -33,22 +34,29 @@ namespace DungeonExplorer
                 if (weaponChoice == "Bow")
                 {
                     Console.WriteLine($"{player.Name} has chosen the bow");
+                    player.PickUpItem(weaponChoice);
+                    Console.WriteLine($"Player Inventory: {player.InventoryContents()}");
+
+                    break;
                 }
                 else if (weaponChoice == "Sword")
                 {
                     Console.WriteLine($"{player.Name} has chosen the sword.");
+                    player.PickUpItem(weaponChoice);
+                    Console.WriteLine($"Player Inventory: {player.InventoryContents()}");
+
+                    break;
                 }
                 else
                 {
                     Console.WriteLine("Invalid choice. User can choose only the sword or the bow.");
-                    playing = false;
                 }
 
             }
-            Console.WriteLine("Game is starting...");
+
 
             Console.ReadLine();
-            playing = false;
+            //playing = false;
         }
     }
 }
