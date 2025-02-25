@@ -7,7 +7,7 @@ namespace DungeonExplorer
     {
         public string Name { get; private set; }
         public int Health { get; private set; }
-        private List<string> inventory = new List<string>(1);
+        private List<string> inventory = new List<string>();
 
         public Player(string name, int health)
         {
@@ -18,9 +18,7 @@ namespace DungeonExplorer
         {
 
             Console.WriteLine($"Item Acquired: {item}");
-            //Player.inventory.Add(item);
             inventory.Add(item);
-            //Console.WriteLine(inventory);
             
         }
         public string InventoryContents()
