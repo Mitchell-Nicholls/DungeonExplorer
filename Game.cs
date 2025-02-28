@@ -25,8 +25,6 @@ namespace DungeonExplorer
         }
         public void Start()
         {
-            // Change the playing logic into true and populate the while loop
-            //bool weaponOption = true;
             bool playing = true;
             Random random = new Random();
 
@@ -42,8 +40,6 @@ namespace DungeonExplorer
                     player.PickUpItem("Bow");
                     player.PickUpItem("Unlimited Healing Potion");
                     Console.WriteLine($"{player.Name}'s Inventory: {player.InventoryContents()}");
-                    //break;
-                    //int bowDamage = random.Next(0, 20);
                 }
                 // Choice 1 Option 2/2
                 else if (weaponChoice == "sword")
@@ -52,8 +48,6 @@ namespace DungeonExplorer
                     player.PickUpItem("Sword");
                     player.PickUpItem("Unlimited Healing Potion");
                     Console.WriteLine($"{player.Name}'s Inventory: {player.InventoryContents()}");
-                    //break;
-                    //int swordDamage = random.Next(0, 12);
                 }
                 else
                 {
@@ -84,7 +78,6 @@ namespace DungeonExplorer
             }
 
             Console.WriteLine($"\nA group of goblin enemies holding clubs head towards {player.Name}. ");
-            //Console.WriteLine($"Player Dealt {PlayerAttack} damage");
             while (playing)
             {
                 // Code your playing logic here
@@ -105,7 +98,7 @@ namespace DungeonExplorer
                         {
                             Console.WriteLine($"{player.Name}'s Health exceeded 100. {player.Health} set to 100...");
                             player.Health = 100;
-                            throw new Exception("User is at full health. Unable to use heal...");//continue;
+                            throw new Exception("User is at full health. Unable to use heal...");
 
                         }
                         if (enemy.Health > 0)
