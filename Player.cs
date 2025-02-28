@@ -6,7 +6,7 @@ namespace DungeonExplorer
     public class Player
     {
         public string Name { get; private set; }
-        public int Health { get; private set; }
+        public int Health { get; set; }
         private List<string> inventory = new List<string>();
 
         public Player(string name, int health)
@@ -17,7 +17,7 @@ namespace DungeonExplorer
         public void PickUpItem(string item)
         {
 
-            Console.WriteLine($"Item Acquired: {item}");
+            //Console.WriteLine($"Item Acquired: {item}");
             inventory.Add(item);
             
         }
@@ -25,6 +25,11 @@ namespace DungeonExplorer
         {
             return string.Join(", ", inventory);
 
+        }
+        public void ClearItems()
+        {
+            Console.WriteLine("Inventory reset ");
+            inventory.Clear();
         }
     }
 }
