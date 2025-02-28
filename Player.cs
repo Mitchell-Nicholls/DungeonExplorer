@@ -7,6 +7,7 @@ namespace DungeonExplorer
     {
         public string Name { get; private set; }
         public int Health { get; set; }
+        //private List<string> inventory = new List<string>();
         private List<string> inventory = new List<string>();
 
         public Player(string name, int health)
@@ -31,5 +32,10 @@ namespace DungeonExplorer
             Console.WriteLine("Inventory reset ");
             inventory.Clear();
         }
+        /*public void RemoveItem(string item)
+        {
+            inventory.TryGetValue(item, out int quantity);
+            quantity--;
+        }*/
     }
 }
