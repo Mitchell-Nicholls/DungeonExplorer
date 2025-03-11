@@ -8,6 +8,10 @@ namespace DungeonExplorer
 {
     internal class Program
     {
+        /// <summary>
+        /// Initiates the game
+        /// </summary>
+        /// <param name="args"></param>
         static void Main(string[] args)
         {
             Game game = new Game();
