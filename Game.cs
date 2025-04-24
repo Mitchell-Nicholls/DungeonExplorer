@@ -1,239 +1,239 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Diagnostics;
+using System.Linq;
+using System.Threading;
 using System.Xml;
 namespace DungeonExplorer
 {
     internal class Game
     {
+        Inventory inventory;
+        Potion potion;
+        //Key Key;
+        private List<Monster> monsters;
+        List<Item> playerItems = new List<Item>();
+        private Creature currentEnemy;
         private Player player;
-        private Room currentRoom;
-        private Player enemy;
         private Testing testing;
-        public double baseWeaponAverage = (1.0 + 12.0) / 2.0;
-        public double clubAverage = (3.0 + 18.0) / 2.0;
-        
+        GameMap gamemap;
+        Weapon weapon;
+
         /// <summary>Initiates the game with one room and one Player.
         /// </summary>
         public Game()
         {
-            player = new Player("Mitchell", 100);
-            enemy = new Player("Goblins", 30);
+            Random random = new Random();
+            potion = new Potion("Healing Potion", 50);
+            weapon = new Weapon("Wooden Plank", random.Next(13, 21));
+            inventory = new Inventory();
+            gamemap = new GameMap();
+            Monster enemy_1 = new Goblin("Goblin", 20, "Dagger", 5);
+            Monster enemy_2 = new Goblin("Goblin Jockey", 20, "Wooden Plank", 7);
+            Monster enemy_3 = new Goblin("Giant Goblin", 25, "Pipe", 9);
+            Monster enemy_4 = new Goblin("Goblin Zombie", 30, "Fists", 10);
+            Monster enemy_5 = new Goblin("Goblin Warrior", 30, "Sword", 12);
+            Monster enemy_6 = new Goblin("Goblin Sorcerer", 30, "Magic Staff", 14);
+            Monster boss = new Boss("Goblin King", 50, "Magic Staff", 17);
+            monsters = new List<Monster> { enemy_1, enemy_2, enemy_3, enemy_4, enemy_5, enemy_6, boss };
+
+            player = new Player("Mitchell", 100, "Fists", 12);
             testing = new Testing("Error: Invalid Weapon Choice:", "User must type bow or sword to proceed or generate random weapon.");
-            currentRoom = new Room("Dungeon Entrance", $"An eary aura roams through the path in front of you with you being able to sense the danger up ahead.");
-            Console.WriteLine($"Player Name: {player.Name} \tPlayer Health: {player.Health} \tStarting Room: {currentRoom.GetRoomName()} \n\nRoom Description: {currentRoom.GetDescription()} ");
-            System.Threading.Thread.Sleep(1000);
+            //System.Threading.Thread.Sleep(1000);
+
+            //inventory.GetInventoryContents(playerItems);
+            currentEnemy = monsters[0];
+            gamemap.CreateMap(5);
+            Console.WriteLine($"\n{monsters.Count} monsters in the dungeon.\tObjective: Survive");
         }
         /// <summary>
         /// Structure of the game for the user to interact with for different outcomes to occur
         /// </summary>
         public void Start()
         {
-            bool playing = true;
-            Random random = new Random();
-            
-            Console.WriteLine("\nHung on opposite walls are a sword and a bow with a quiver.\nDo you choose the bow (type bow) or the sword (type sword)? (You can only pick one.)");
-            string weaponChoice = Console.ReadLine().ToLower();
-            // Choice 1 Option 1/2
+            Console.WriteLine("\nThe player starts with 3 healing potions on their journey.\n");
+            potion.AddItem(potion.Name, potion.HealAmount, playerItems);
+            potion.AddItem(potion.Name, potion.HealAmount, playerItems);
+            potion.AddItem(potion.Name, potion.HealAmount, playerItems);
+            inventory.GetInventoryContents(playerItems);
+            gamemap.CurrentRoom(0);
+            Thread.Sleep(5000);
 
+            while (player.IsAlive && currentEnemy.IsAlive)
+            {
+
+                Thread.Sleep(3500);
+                Console.Clear();
+                Console.WriteLine("Room 1");
+                player.DisplayInfo();
+                Console.WriteLine();
+                currentEnemy.DisplayInfo();
+                PlayerTurn(0, true);
+            }
+
+            currentEnemy = monsters[1];
+            gamemap.CurrentRoom(1);
+            Console.WriteLine();
+            while (player.IsAlive && currentEnemy.IsAlive)
+            {
+                Thread.Sleep(3500);
+                Console.Clear();
+                Console.WriteLine("Room 2");
+                player.DisplayInfo();
+                Console.WriteLine();
+                currentEnemy.DisplayInfo();
+
+                PlayerTurn(1, false);
+            }
+            currentEnemy = monsters[2];
+            gamemap.CurrentRoom(2);
+            Console.WriteLine();
+            while (player.IsAlive && currentEnemy.IsAlive)
+            {
+                Thread.Sleep(3500);
+                Console.Clear();
+                Console.WriteLine("Room 3");
+                player.DisplayInfo();
+                Console.WriteLine();
+                currentEnemy.DisplayInfo();
+                PlayerTurn(2, false);
+            }
+            currentEnemy = monsters[3];
+            gamemap.CurrentRoom(3);
+            while (player.IsAlive && currentEnemy.IsAlive)
+            {
+                Thread.Sleep(3500);
+                Console.Clear();
+                Console.WriteLine("Room 4");
+                player.DisplayInfo();
+                Console.WriteLine();
+                currentEnemy.DisplayInfo();
+                PlayerTurn(3, false);
+            }
+            currentEnemy = monsters[4];
+            gamemap.CurrentRoom(4);
+            while (player.IsAlive && currentEnemy.IsAlive)
+            {
+                Thread.Sleep(3500);
+                Console.Clear();
+                Console.WriteLine("Room 5");
+                player.DisplayInfo();
+                Console.WriteLine();
+                currentEnemy.DisplayInfo();
+                PlayerTurn(4, false);
+            }
+            currentEnemy = monsters[5];
+            gamemap.CurrentRoom(5);
+            while (player.IsAlive && currentEnemy.IsAlive)
+            {
+                Thread.Sleep(3500);
+                Console.Clear();
+                Console.WriteLine("Room 6");
+                player.DisplayInfo();
+                Console.WriteLine();
+                currentEnemy.DisplayInfo();
+                PlayerTurn(5, true);
+            }
+            currentEnemy = monsters[6];
+            gamemap.CurrentRoom(6);
+            while (player.IsAlive && currentEnemy.IsAlive)
+            {
+                Thread.Sleep(3500);
+                Console.Clear();
+                Console.WriteLine("Room 7");
+                Console.WriteLine();
+                player.DisplayInfo();
+                Console.WriteLine();
+                currentEnemy.DisplayInfo();
+                PlayerTurn(6, true);
+
+                weapon.AddItem(weapon.Name, weapon.AverageDamage);
+                inventory.GetInventoryContents(playerItems);
+
+            }
+            Console.WriteLine("You have defeated the dungeon. Congratulations, your adventure is complete.");
+        }
+        private void PlayerTurn(int roomNumber, bool hasKey)
+        {
+            Console.WriteLine("What would the player like to do?");
+            Console.WriteLine("1. Attack\n2. Heal\n3. View Inventory\n4. View Current Room\n5. Go to next room");
+            string choice = Console.ReadLine();
             try
             {
-                if (weaponChoice == "bow")
+                if (choice == "1")
                 {
-                    Console.WriteLine($"{player.Name} chose the {weaponChoice}.\tAverage Damage: {baseWeaponAverage}");
-                    Console.WriteLine($"{player.Name} also acquired a healing potion with unlimited uses.");
-                    player.PickUpItem("Bow");
-                    player.PickUpItem("Unlimited Healing Potion");
-                    Console.WriteLine($"{player.Name}'s Inventory: {player.GetInventoryContents()}");
+                    Console.WriteLine("Player uses Attack");
+                    currentEnemy.TakeDamage(player.Damage, player.Name, player.Weapon);
+                    player.TakeDamage(currentEnemy.Damage, currentEnemy.Name, currentEnemy.Weapon);
+                    if (currentEnemy.IsDead)
+                    {
+                        Console.WriteLine($"{currentEnemy.Name} is dead. You win.");
+                        potion.AddItem(potion.Name, potion.HealAmount, playerItems);
+                        weapon.AddItem(weapon.Name, weapon.AverageDamage, playerItems);
+                        player.EquipStrongestWeapon(playerItems, player, weapon);
+                        inventory.GetInventoryContents(playerItems);
+                        hasKey = true;
+                        if (hasKey)
+                        {
+                            Console.WriteLine($"{player.Name} unlocks the door and advances to the next room.");
+                        }
+                    }
+                    if (player.IsDead)
+                    {
+                        Console.WriteLine($"{player.Name} died in battle. You lose.");
+                    }
                 }
-                // Choice 1 Option 2/2
-                else if (weaponChoice == "sword")
+                else if (choice == "2")
                 {
-                    Console.WriteLine($"{player.Name} chose the {weaponChoice}.\tAverage Damage: {baseWeaponAverage}");
-                    Console.WriteLine($"{player.Name} also acquired a healing potion with unlimited uses.");
-                    player.PickUpItem("Sword");
-                    player.PickUpItem("Unlimited Healing Potion");
-                    Console.WriteLine($"{player.Name}'s Inventory: {player.GetInventoryContents()}");
+                    Console.WriteLine("Player uses Heal.");
+                    inventory.GetPotionsInInventory(playerItems);
+                    player.UsePotion(potion, weapon, playerItems, player);
+                    player.TakeDamage(currentEnemy.Damage, currentEnemy.Name, currentEnemy.Weapon);
+                    if (player.IsDead)
+                    {
+                        Console.WriteLine($"{player.Name} died while healing. You lose.");
+                    }
+                }
+                else if (choice == "3")
+                {
+                    Console.WriteLine("Player views inventory.");
+                    inventory.GetInventoryContents(playerItems);
+                }
+                else if (choice == "4")
+                {
+                    Console.WriteLine("Player chooses to view their current room.");
+                    gamemap.CurrentRoom(roomNumber);
+                }
+                else if (choice == "5" && !hasKey)
+                {
+                    Console.WriteLine($"The Key is required to advance. You must defeat the {currentEnemy.Name} to receive the key.");
+                }
+                else if (choice == "5" && hasKey)
+                {
+                    Console.WriteLine($"The door is already unlocked but you must defeat the {currentEnemy.Name} blocking the path to the door.");
+                }
+                else if (string.IsNullOrWhiteSpace(choice))
+                {
+                    Debug.Assert(choice == "1" || choice == "2" || choice == "3" || choice == "4" || choice == "5", $"Error: Null or empty choice {choice}. User must type a number between 1-5.");
+
+                    throw new ArgumentNullException($"Error: Null or Empty Option. You must type a number between 1-5 to proceed");
+                    return;
                 }
                 else
                 {
-                    Debug.Assert(weaponChoice == "sword" || weaponChoice == "bow", $"{testing.TestingName()} {testing.DebugMessage()}");
-                    throw new ArgumentOutOfRangeException();
+                    Debug.Assert(choice == "1" || choice == "2" || choice == "3" || choice == "4" || choice == "5", $"Error: Invalid Choice {choice}. User must type a number between 1-5.");
+                    throw new ArgumentOutOfRangeException($"Error: Unacceptable Option {choice}. You must enter only one number from 1-5");
                 }
             }
-            // Exception generating user's weapon if invalid input.
-            catch (ArgumentOutOfRangeException ex)
+            catch (ArgumentOutOfRangeException e)
             {
-                Console.WriteLine($"Invalid weapon. Generating random weapon for {player.Name}...");
-                int randomWeapon = random.Next(1, 3);
-                if (randomWeapon == 1)
-                {
-                    weaponChoice = "bow";
-                    Console.WriteLine($"{player.Name} chose the {weaponChoice}.\tAverage Damage: {baseWeaponAverage}");
-                    Console.WriteLine($"{player.Name} also acquired a healing potion with unlimited uses.");
-                    player.PickUpItem("Bow");
-                    player.PickUpItem("Unlimited Healing Potion");
-                    Console.WriteLine($"{player.Name}'s Inventory: {player.GetInventoryContents()}");
-                }
-                else
-                {
-                    weaponChoice = "sword";
-                    Console.WriteLine($"{player.Name} chose the {weaponChoice}.\tAverage Damage: {baseWeaponAverage}");
-                    Console.WriteLine($"{player.Name} also acquired a healing potion with unlimited uses.");
-                    player.PickUpItem("Sword");
-                    player.PickUpItem("Unlimited Healing Potion");
-                    Console.WriteLine($"{player.Name}'s Inventory: {player.GetInventoryContents()}");
-                }
+                Console.WriteLine(e.Message);
             }
-            
-            Console.WriteLine($"\nA group of goblin enemies holding clubs head towards {player.Name}.\n{player.Name}: {player.Health} Health\n{enemy.Name}: {enemy.Health} Health");
-            while (playing)
+            catch (ArgumentNullException e)
             {
-                // Code your playing logic here
-                try
-                {
-                    testing = new Testing("Error: Invalid Battle Choice:", "User must type attack (or a) or heal (or h) to proceed the battle.");
-                    Console.WriteLine($"\nDo you heal (type h or heal) yourself or attack (type a or attack) the goblins?\nTip: Type view for user inventory and current room description.");
-                    string choice = Console.ReadLine().ToLower();
-                    if (choice == "view")
-                    {
-                        Console.WriteLine($"\nRoom Name:{currentRoom.GetRoomName()}\nRoom Description:{currentRoom.GetDescription()}\nInventory:{player.GetInventoryContents()}");
-                        continue;
-                    }
-                    // Choice 2 Option 1/2
-                    if (choice == "heal" || choice == "h")
-                    {
-                        if (player.Health < 100)
-                        {
-                            int HealPoint = random.Next(10, 26);
-                            Console.WriteLine($"{player.Name} used a health potion and healed {HealPoint} health");
-                            player.Health += HealPoint;
-                            if (player.Health > 100)
-                            {
-                                player.Health = 100;
-                                Console.WriteLine($"{player.Name}'s Health: {player.Health}");
-                            }
-                        }
-                        else if (player.Health >= 100)
-                        {
-                            player.Health = 100;
-                            throw new Exception("User is at full health. Unable to use heal...");
-
-                        }
-                        if (enemy.Health > 0)
-                        {
-                            int enemyAttack = random.Next(0, 12);
-                            Console.WriteLine($"{enemy.Name} dealt {enemyAttack} damage");
-                            Console.WriteLine($"{player.Name}'s health:{player.Health -= enemyAttack}");
-
-                            if (player.Health <= 0)
-                            {
-                                Console.WriteLine($"{player.Name}'s health has been lost. You lose.");
-                            }
-                        }
-
-                    }
-
-
-
-
-                    // Choice 2 Option 2/2
-                    else if (choice == "attack" || choice == "a")
-                    {
-                        Console.WriteLine($"\n{player.Name} attacked the goblins with the {weaponChoice}.");
-                        // Option for Sword
-                        if (weaponChoice == "sword")
-                        {
-                            int swordDamage = random.Next(0, 12);
-                            Console.WriteLine($"{player.Name} dealt {swordDamage} damage");
-                            enemy.Health -= swordDamage;
-                            if (enemy.Health <= 0)
-                            {
-                                enemy.Health = 0;
-                            }
-                        }
-                        // Option for Bow
-                        else if (weaponChoice == "bow")
-                        {
-                            int bowDamage = random.Next(0, 6);
-                            Console.WriteLine($"{player.Name} dealt {bowDamage} damage");
-                            enemy.Health -= bowDamage;
-                            if (enemy.Health <= 0)
-                            {
-                                enemy.Health = 0;
-                            }
-                        }
-
-                        Console.WriteLine($"{enemy.Name}'s Health:{enemy.Health}");
-                        if (enemy.Health <= 0)
-                        {
-                            Console.WriteLine($"{enemy.Name} are defeated. You win.");
-                            int Coin = random.Next(25, 100);
-                            string enemyWeapon = "Goblin Club";
-                            testing = new Testing("Error: Invalid Option:", $"User must type yes or no to picking up the {enemyWeapon}. (or y for yes and n for no)");
-                            Console.WriteLine($"{player.Name} earned {Coin} coins.");
-                        PickupChoice:
-                            Console.WriteLine($"{enemy.Name} dropped a {enemyWeapon}: Average Damage: {clubAverage} \nCurrent Weapon: {weaponChoice}: Average Damage: {baseWeaponAverage}\nWould you like to pick it up? \n(type 'yes' or 'y' for yes or 'no' or 'n' for no)");
-                            string weaponPickUp = Console.ReadLine();
-                            if (weaponPickUp == "yes" || weaponPickUp == "y")
-                            {
-                                Console.WriteLine($"{player.Name} picked up the {enemyWeapon}.");
-                                player.PickUpItem(enemyWeapon);
-                                Console.WriteLine($"Player:{player.Name} \tCurrent Health:{player.Health} \tCurrent Inventory:{player.GetInventoryContents()} \tCoin Balance:{Coin}");
-                                Console.WriteLine("To be Continued...");
-                                break;
-                            }
-                            else if (weaponPickUp == "no" || weaponPickUp == "n")
-                            {
-                                Console.WriteLine($"{player.Name} did not pick up the {enemyWeapon}");
-                                Console.WriteLine($"Player:{player.Name} \tCurrent Health:{player.Health} \tCurrent Inventory:{player.GetInventoryContents()} \tCoin Balance:{Coin}");
-                                Console.WriteLine("To be Continued...");
-                                break;
-                            }
-                            else
-                            {
-                                Debug.Assert(weaponChoice == "yes" || weaponChoice == "no" || weaponChoice == "n" || weaponChoice == "y", $"{testing.TestingName()} {testing.DebugMessage()}");
-                                goto PickupChoice;
-                            }
-                        }
-                        // Enemy Attack
-                        if (enemy.Health > 0)
-                        {
-                            int enemyAttack = random.Next(0, 12);
-                            Console.WriteLine($"{enemy.Name} dealt {enemyAttack} damage");
-                            Console.WriteLine($"{player.Name}'s health:{player.Health -= enemyAttack}");
-                        }
-                        // Player Death
-                        if (player.Health <= 0)
-                        {
-                            Console.WriteLine($"{player.Name} has been defeated. You lose.");
-                            break;
-                        }
-                    }
-                    else
-                    {
-                        Debug.Assert(choice == "view" || choice == "attack" || choice == "a" || choice == "heal" || choice == "h", $"{testing.TestingName()} {testing.DebugMessage()}");
-                        throw new ArgumentOutOfRangeException("Unacceptable Input. You can only attack or heal.");
-                    }
-                }
-                // Exception for user's options (attack or heal)
-                catch (ArgumentOutOfRangeException ex)
-                {
-                    Console.WriteLine(ex.Message);
-
-                }
-
-                catch (ArgumentNullException ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
-
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
-
+                Console.WriteLine(e.Message);
             }
-
         }
     }
 }
