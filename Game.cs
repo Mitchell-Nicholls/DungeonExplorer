@@ -40,9 +40,7 @@ namespace DungeonExplorer
 
             player = new Player("Mitchell", 100, "Fists", 12);
             testing = new Testing("Error: Invalid Weapon Choice:", "User must type bow or sword to proceed or generate random weapon.");
-            //System.Threading.Thread.Sleep(1000);
 
-            //inventory.GetInventoryContents(playerItems);
             currentEnemy = monsters[0];
             gamemap.CreateMap(5);
             Console.WriteLine($"\n{monsters.Count} monsters in the dungeon.\tObjective: Survive");
@@ -218,7 +216,7 @@ namespace DungeonExplorer
                     Debug.Assert(choice == "1" || choice == "2" || choice == "3" || choice == "4" || choice == "5", $"Error: Null or empty choice {choice}. User must type a number between 1-5.");
 
                     throw new ArgumentNullException($"Error: Null or Empty Option. You must type a number between 1-5 to proceed");
-                    return;
+
                 }
                 else
                 {

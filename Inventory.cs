@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -72,11 +73,13 @@ namespace DungeonExplorer
                 }
                 else if (string.IsNullOrWhiteSpace(itemName))
                 {
+                    Debug.Assert(itemRemove == null, "Null or empty Inventory option. Chosen inventory option cannot be null or empty.");
                     throw new ArgumentNullException($"Error: Null or empty item choice. You must enter a valid item in your inventory as displayed above.");
                 }
 
                 else
                 {
+                    Debug.Assert(itemRemove == null, $"Error: Invalid Inventory Item {itemRemove}. Type a valid item in your inventory.");
                     throw new ArgumentOutOfRangeException($"Error: Invalid inventory Item {itemRemove}. You must type an item in your inventory shown above.");
                 }
             }

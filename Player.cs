@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -44,11 +45,13 @@ namespace DungeonExplorer
         {
             try
             {
+
                 Console.WriteLine("Enter the name of the potion to use.");
                 string itemName = Console.ReadLine().ToLower();
                 var itemRemove = items.FirstOrDefault(potion => potions.Name.ToLower() == itemName.ToLower());
                 if (itemRemove == null)
                 {
+                    Debug.Assert(itemRemove != null, "Error: Invalid Potion Item. You must type the name of a valid potion in your inventory.");
                     throw new Exception($"Item {itemName} not found in inventory. Please check the name of the potion you wanted to use.");
                 }
                 else if (itemRemove.Name.ToLower() == weapons.Name.ToLower())
