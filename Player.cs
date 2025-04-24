@@ -54,6 +54,10 @@ namespace DungeonExplorer
                     Debug.Assert(itemRemove != null, "Error: Invalid Potion Item. You must type the name of a valid potion in your inventory.");
                     throw new Exception($"Item {itemName} not found in inventory. Please check the name of the potion you wanted to use.");
                 }
+                else if (Health >= 100)
+                {
+                    Debug.Assert(Health < 100, $"{Name} is already at full health. The potion has remained in {Name}'s inventory.");
+                }
                 else if (itemRemove.Name.ToLower() == weapons.Name.ToLower())
                 {
                     Console.WriteLine($"{weapons.Name} is a weapon and cannot be consumed.");

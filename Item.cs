@@ -49,7 +49,7 @@ namespace DungeonExplorer
         public void AddItem(string itemName, int itemStat, List<Item> items)
         {
             items.Add(new Weapon(itemName, itemStat));
-            Console.WriteLine($"As a reward, the enmy dropped {itemName} dealing {itemStat} damage.");
+            Console.WriteLine($"As a reward, the enemy dropped {itemName} dealing {itemStat} damage.");
             Console.WriteLine($"{itemName} weapon is acquired in the player's inventory.");
         }
         /// <summary>

@@ -56,7 +56,7 @@ namespace DungeonExplorer
             potion.AddItem(potion.Name, potion.HealAmount, playerItems);
             inventory.GetInventoryContents(playerItems);
             gamemap.CurrentRoom(0);
-            Thread.Sleep(5000);
+            /*Thread.Sleep(5000);
 
             while (player.IsAlive && currentEnemy.IsAlive)
             {
@@ -132,7 +132,7 @@ namespace DungeonExplorer
                 Console.WriteLine();
                 currentEnemy.DisplayInfo();
                 PlayerTurn(5, true);
-            }
+            }*/
             currentEnemy = monsters[6];
             gamemap.CurrentRoom(6);
             while (player.IsAlive && currentEnemy.IsAlive)
