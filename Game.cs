@@ -42,7 +42,6 @@ namespace DungeonExplorer
             monsters = new List<Monster> { enemy_1, enemy_2, enemy_3, enemy_4, enemy_5, enemy_6, boss };
 
             player = new Player("Mitchell", 100, "Fists", 12);
-            //testing = new Testing("Error: Invalid Weapon Choice:", "User must type bow or sword to proceed or generate random weapon.");
 
             currentEnemy = monsters[0];
             gamemap.CreateMap(5);
@@ -67,6 +66,7 @@ namespace DungeonExplorer
                 Thread.Sleep(3500);
                 Console.Clear();
                 Console.WriteLine("Room 1");
+                stats.DisplayScore();
                 player.DisplayInfo();
                 Console.WriteLine();
                 currentEnemy.DisplayInfo();
@@ -83,6 +83,7 @@ namespace DungeonExplorer
                 Thread.Sleep(3500);
                 Console.Clear();
                 Console.WriteLine("Room 2");
+                stats.DisplayScore();
                 player.DisplayInfo();
                 Console.WriteLine();
                 currentEnemy.DisplayInfo();
@@ -99,6 +100,7 @@ namespace DungeonExplorer
                 Thread.Sleep(3500);
                 Console.Clear();
                 Console.WriteLine("Room 3");
+                stats.DisplayScore();
                 player.DisplayInfo();
                 Console.WriteLine();
                 currentEnemy.DisplayInfo();
@@ -113,6 +115,7 @@ namespace DungeonExplorer
                 Thread.Sleep(3500);
                 Console.Clear();
                 Console.WriteLine("Room 4");
+                stats.DisplayScore();
                 player.DisplayInfo();
                 Console.WriteLine();
                 currentEnemy.DisplayInfo();
@@ -127,6 +130,7 @@ namespace DungeonExplorer
                 Thread.Sleep(3500);
                 Console.Clear();
                 Console.WriteLine("Room 5");
+                stats.DisplayScore();
                 player.DisplayInfo();
                 Console.WriteLine();
                 currentEnemy.DisplayInfo();
@@ -141,6 +145,7 @@ namespace DungeonExplorer
                 Thread.Sleep(3500);
                 Console.Clear();
                 Console.WriteLine("Room 6");
+                stats.DisplayScore();
                 player.DisplayInfo();
                 Console.WriteLine();
                 currentEnemy.DisplayInfo();
@@ -156,6 +161,7 @@ namespace DungeonExplorer
                 Console.Clear();
                 Console.WriteLine("Room 7");
                 Console.WriteLine();
+                stats.DisplayScore();
                 player.DisplayInfo();
                 Console.WriteLine();
                 currentEnemy.DisplayInfo();
@@ -166,7 +172,7 @@ namespace DungeonExplorer
 
             }
             Console.WriteLine("You have defeated the dungeon. Congratulations, your adventure is complete.");
-            stats.AddScore(500);
+            stats.monsterDefeat(1000);
         }
         private void PlayerTurn(int roomNumber, bool hasKey)
         {
@@ -189,7 +195,7 @@ namespace DungeonExplorer
                         weapon.AddItem(weapon.Name, weapon.AverageDamage, playerItems);
                         player.EquipStrongestWeapon(playerItems, player, weapon);
                         inventory.GetInventoryContents(playerItems);
-                        stats.AddScore(EnemyScore);
+                        stats.monsterDefeat(EnemyScore);
                         hasKey = true;
                         if (hasKey)
                         {
