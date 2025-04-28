@@ -12,7 +12,7 @@ namespace DungeonExplorer
     {
         List<Monster> monsters = new List<Monster>();
         Random random = new Random();
-
+        Statistics stats = new Statistics();
         /// <summary>
         /// Parameters taken into account for the monster
         /// </summary>
@@ -45,6 +45,7 @@ namespace DungeonExplorer
             var playerDamage = random.Next(0, damage);
             Console.WriteLine($"\n{entityName} attacked {Name} for {playerDamage} with their {entityWeapon}.");
             Health -= playerDamage;
+            stats.AddScore(playerDamage);
             Console.WriteLine($"\n{Name}: {Health} Health Remaining");
         }
     }

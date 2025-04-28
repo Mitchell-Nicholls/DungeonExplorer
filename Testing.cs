@@ -9,35 +9,17 @@ namespace DungeonExplorer
 {
     public class Testing
     {
-        private string debugMessage;
-        private string debugName;
-        
-        /// <summary>
-        /// This Method will return the name of the error along with the message for it.
-        /// </summary>
-        /// <param name="debugName">the name of the debug message</param>
-        /// <param name="debugMessage">the message assigned for the name of the debug</param>
-        /// <returns>the debug message and name</returns>
-        public Testing(string debugName, string debugMessage)
+        public Testing()
         {
-            this.debugName = debugName;
-            this.debugMessage = debugMessage;
+
         }
-        /// <summary>
-        /// Returns the name of the debug
-        /// </summary>
-        /// <returns>Name of the debug</returns>
-        public string TestingName()
+        public void inRange(int testingInput, int minTestingRange, int maxTestingRange) 
         {
-            return debugName;
+            Debug.Assert(testingInput > minTestingRange && testingInput < maxTestingRange, $"Error: Invalid Input. You must type a number between {minTestingRange + 1} and {maxTestingRange - 1} to proceed.");
         }
-        /// <summary>
-        /// Returns the value of the debug message
-        /// </summary>
-        /// <returns>The debug Message</returns>
-        public string DebugMessage()
+        public void nullOrEmpty(string testingInput, int minTestingRange, int maxTestingRange)
         {
-            return debugMessage;
+            Debug.Assert(!string.IsNullOrWhiteSpace(testingInput), $"Error: Null or empty input. You must enter a valid number between {minTestingRange + 1} and {maxTestingRange - 1} to proceed through the game.");
         }
     }
 }
