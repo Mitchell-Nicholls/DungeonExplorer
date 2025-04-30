@@ -71,7 +71,6 @@ namespace DungeonExplorer
                 Console.WriteLine();
                 currentEnemy.DisplayInfo();
                 PlayerTurn(0, true);
-                //stats.AddScore(50);
             }
 
             currentEnemy = monsters[1];
@@ -89,7 +88,6 @@ namespace DungeonExplorer
                 currentEnemy.DisplayInfo();
 
                 PlayerTurn(1, false);
-                //stats.AddScore(100);
             }
             currentEnemy = monsters[2];
             gamemap.CurrentRoom(2);
@@ -105,7 +103,6 @@ namespace DungeonExplorer
                 Console.WriteLine();
                 currentEnemy.DisplayInfo();
                 PlayerTurn(2, false);
-                //stats.AddScore(150);
             }
             currentEnemy = monsters[3];
             gamemap.CurrentRoom(3);
@@ -120,7 +117,6 @@ namespace DungeonExplorer
                 Console.WriteLine();
                 currentEnemy.DisplayInfo();
                 PlayerTurn(3, false);
-                //stats.AddScore(200);
             }
             currentEnemy = monsters[4];
             gamemap.CurrentRoom(4);
@@ -135,7 +131,6 @@ namespace DungeonExplorer
                 Console.WriteLine();
                 currentEnemy.DisplayInfo();
                 PlayerTurn(4, false);
-                //stats.AddScore(300);
             }
             currentEnemy = monsters[5];
             gamemap.CurrentRoom(5);
@@ -150,13 +145,11 @@ namespace DungeonExplorer
                 Console.WriteLine();
                 currentEnemy.DisplayInfo();
                 PlayerTurn(5, true);
-                //stats.AddScore(400);
             }
             currentEnemy = monsters[6];
             gamemap.CurrentRoom(6);
             while (player.IsAlive && currentEnemy.IsAlive)
             {
-                //EnemyScore = 500;
                 Thread.Sleep(3500);
                 Console.Clear();
                 Console.WriteLine("Room 7");
@@ -166,8 +159,7 @@ namespace DungeonExplorer
                 Console.WriteLine();
                 currentEnemy.DisplayInfo();
                 PlayerTurn(6, true);
-                //stats.AddScore(500);
-                weapon.AddItem(weapon.Name, weapon.AverageDamage);
+                weapon.AddItem(weapon.Name, weapon.AverageDamage, playerItems);
                 inventory.GetInventoryContents(playerItems);
 
             }
