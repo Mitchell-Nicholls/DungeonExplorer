@@ -22,7 +22,7 @@ namespace DungeonExplorer
         /// </summary>
         /// <param name="itemName">Name of the item to add to the inventory</param>
         /// <param name="itemStat">Statistic of the item being added to the inventory</param>
-        public virtual void AddItem(string itemName, int itemStat)
+        public virtual void AddItem(string itemName, int itemStat, List<Item> items)
         { }
     }
     public class Weapon : Item
@@ -46,7 +46,7 @@ namespace DungeonExplorer
         /// <param name="itemName"></param>
         /// <param name="itemStat"></param>
         /// <param name="items"></param>
-        public void AddItem(string itemName, int itemStat, List<Item> items)
+        public override void AddItem(string itemName, int itemStat, List<Item> items)
         {
             items.Add(new Weapon(itemName, itemStat));
             Console.WriteLine($"As a reward, the enemy dropped {itemName} dealing {itemStat} damage.");
@@ -86,7 +86,7 @@ namespace DungeonExplorer
         /// <param name="itemName">Name of the potion</param>
         /// <param name="itemStat">The stat of the potion being added</param>
         /// <param name="items">The list the potion is being added to</param>
-        public void AddItem(string itemName, int itemStat, List<Item> items)
+        public override void AddItem(string itemName, int itemStat, List<Item> items)
         {
             items.Add(new Potion(itemName, itemStat));
             Console.WriteLine($"{itemName} is acquired in the player's inventory.");

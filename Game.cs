@@ -238,7 +238,6 @@ namespace DungeonExplorer
                 }
                 else if (string.IsNullOrWhiteSpace(choice))
                 {
-                    //Debug.Assert(number > 0 && number < 6, $"Error: Null or empty choice {choice}. User must type a number between 1-5.");
                     testing.nullOrEmpty(choice, 0, 6);
                     throw new ArgumentNullException($"Error: Null or Empty Option. You must type a number between 1-5 to proceed");
 
@@ -246,7 +245,6 @@ namespace DungeonExplorer
                 else
                 {
                     testing.inRange(number, 0, 6);
-                    //Debug.Assert(number > 0 && number < 6, $"Error: Invalid Choice {choice}. User must type a number between 1-5.");
                     throw new ArgumentOutOfRangeException($"Error: Unacceptable Option {choice}. You must enter only one number from 1-5");
                 }
             }

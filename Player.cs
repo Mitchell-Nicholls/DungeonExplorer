@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 
 namespace DungeonExplorer
 {
-    class Player : Creature, IDamageable
+    class Player : Creature
     {
         Random random;
         /// <summary>
@@ -45,7 +45,6 @@ namespace DungeonExplorer
         {
             try
             {
-
                 Console.WriteLine("Enter the name of the potion to use.");
                 string itemName = Console.ReadLine().ToLower();
                 var itemRemove = items.FirstOrDefault(potion => potions.Name.ToLower() == itemName.ToLower());

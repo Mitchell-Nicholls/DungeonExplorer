@@ -13,6 +13,6 @@ namespace DungeonExplorer
         /// </summary>
         /// <param name="itemName">Name of the item to add to the inventory</param>
         /// <param name="itemStat">Status effect of the item to add to the inventory</param>
-        void AddItem(string itemName, int itemStat);
+        void AddItem(string itemName, int itemStat, List<Item>items);
     }
 }

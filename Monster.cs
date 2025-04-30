@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DungeonExplorer
 {
-    class Monster : Creature, IDamageable
+    class Monster : Creature
     {
         List<Monster> monsters = new List<Monster>();
         Random random = new Random();
